@@ -1,0 +1,86 @@
+{% load static %}
+<!-- <img src="{% static 'my_app/example.jpg' %}" alt="My image"> -->
+<link rel="shortcut icon" href="{% static 'images/index_wyl.png' %}">
+<link rel="stylesheet" href="{% static 'css/default.css' %}">
+<link rel="stylesheet" href="{% static 'js/jquery-ui-1.12.1.custom/jquery-ui.min.css' %}">
+<link rel="stylesheet" href="{% static 'js/jquery-ui-1.12.1.custom/jquery-ui.structure.min.css' %}">
+<link rel="stylesheet" href="{% static 'js/jquery-ui-1.12.1.custom/jquery-ui.theme.min.css' %}">
+<script src="{% static 'js/jquery-ui-1.12.1.custom/external/jquery/jquery.js'%}"></script>
+<script src="{% static 'js/jquery-ui-1.12.1.custom/jquery-ui.min.js'%}"></script>
+<div style="margin: 4em; border: 1px solid #ECECEC; padding: 1em;">
+<div style="width: 300px">
+	<div class="server_status">
+		
+		<div style="display: table-row">
+			<div style="display:table-cell">
+				<img src="{% static 'images/logo.png' %}">
+
+			</div>
+		</div>
+		<div style="display: table-row">
+			<div style="display:table-cell">
+				<h4>Address:</h4>
+
+			</div>
+			<div style="display:table-cell">
+				<h4>148.251.40.116:27165</h4>
+
+			</div> 
+			
+			
+		</div>
+		<div style="display: table-row">
+			<div style="display: table-cell; width: 50%">
+			{% if status == True %}
+			<h4>Server is Running:</h4> 
+			{% else %}
+			</h4>Server is NOT Running</h4>
+			{% endif %}
+			</div>
+			<div style="display: table-cell; width: 50%">
+				<span class="server_status {% if status == True %}server_online{% else %}server_offline{% endif %}">{{ status }}</span>
+			</div>
+		</div>
+		
+		
+	</div>
+</div>
+
+			{% if status == True %}
+			<!-- <div style="width: 400px;">
+			<div style="display: table; width: 100%">
+				<div style="display: table-row;">
+				<div style="display: table-cell; width: 20%"><input id="cb_confirm" type="checkbox" name="confirmation_needed"></div>
+				<div style="display: table-cell; width: 80%"><label for="cb_confirm">confirmation_needed</label></div>
+			</div>
+			</div>
+			</div> -->
+			
+			<a class="link" href="/control/stop">STOP</a>
+			{% elif status == "starting" %}
+			<script>
+			var interval = window.setInterval(function() {
+			$.ajax({
+				"url": "http://148.251.40.116:28007/control/test_file/server_1-wi",
+				"type": "GET",
+				"statusCode": {
+					404: function() {
+					
+					}
+				},
+				success: function(data) {
+					if(data["rslt"] == true) {
+						window.clearInterval(interval)
+						window.location.href = "/control"
+					}
+				}
+				
+			})
+			},2000)
+			
+			</script>
+			{% else %}
+			<a class="link" href="/control/start">START</a>
+			
+			{% endif %}
+</div>
